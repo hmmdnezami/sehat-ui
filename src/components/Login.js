@@ -1,96 +1,66 @@
-import React, { Component } from "react";
-import {
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Button
-} from "reactstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
-import Home from "./Home";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import { loginRequest } from "../redux/actions/userActions";
+import "react-toastify/dist/ReactToastify.css";
 
-export default class Login extends Component {
-  constructor(props) {
-    super(props);
+const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    this.state = {
-      username: '',
-      password: ''
-    };
+  const loginState = useSelector((state) => state.login);
 
-    
-    this.handleChange = this.handleChange.bind(this);
-    this.buttonClicked = this.buttonClicked.bind(this);
-  }
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+  });
 
-  handleChange(event) {
+  const handleInputChange = (event) => {
     const { name, value } = event.target;
-    this.setState({ [name]: value });
-  }
+    setFormData({ ...formData, [name]: value });
+  };
 
-  async buttonClicked() {
-    console.log("button clicked.... ");
-    const { password, username } = this.state;
-  
-    try {
-      const response = await fetch('http://localhost:8080/api/auth/signin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          password,
-          username,
-        }),
-      });
-      
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-  
-      const data = await response.json();
-      console.log(data);
-      <Home/>
-    } catch (error) {
-      console.error('Error occurred during fetch:', error);
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    try{
+    dispatch(loginRequest(formData));
+    toast.success("Logged in successfully");
+    navigate('/home');
+    }catch(err) {
+      console.log(err);
     }
-  }
-  
 
-  render() {
-    return (
-      <div>
-        <h1>Login</h1>
-        <p></p>
-        <Form>
-          <FormGroup>
-            <Label for="exampleEmail" hidden>
-              Email
-            </Label>
-            <Input
-              id="exampleEmail"
-              name="username"
-              placeholder="Email"
-              type="username"
-              onChange={this.handleChange}
-            />
-          </FormGroup>{" "}
-          <FormGroup>
-            <Label for="examplePassword" hidden>
-              Password
-            </Label>
-            <Input
-              id="examplePassword"
-              name="password"
-              placeholder="Password"
-              type="password"
-              onChange={this.handleChange}
-            />
-          </FormGroup>{" "}
-          <Button onClick={this.buttonClicked}>Submit</Button>
-          
-        </Form>
-      </div>
-    );
-  }
-}
+  };
+
+  return (
+    <div>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Username:</label>
+          <input
+            required
+            type="text"
+            name="username"
+            value={formData.username}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <label>Password:</label>
+          <input
+            required
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleInputChange}
+          />
+        </div>
+        <button type="submit">Login</button>
+      </form>
+      <ToastContainer />
+    </div>
+  );
+};
+
+export default Login;

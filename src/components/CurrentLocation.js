@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import axios from 'axios';
+import axios from "axios";
 
 export default class CurrentLocation extends Component {
   constructor(props) {
@@ -7,9 +7,9 @@ export default class CurrentLocation extends Component {
 
     this.state = {
       latitude: null,
-      longitude:null,
-      address : "", 
-      city : "",
+      longitude: null,
+      address: "",
+      city: "",
     };
   }
 
@@ -21,8 +21,8 @@ export default class CurrentLocation extends Component {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
           });
-          const {latitude, longitude} = this.state; 
-          const API_KEY = "API_KEY";
+          const { latitude, longitude } = this.state;
+          const API_KEY = "7f9c803feed24104b963e8e1ee687284";
           const url = `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${API_KEY}`;
 
           try {
@@ -33,12 +33,11 @@ export default class CurrentLocation extends Component {
               const city =
                 results[0].components.city || results[0].components.town;
               this.setState({ address, city });
-              console.log(address) ;
-              console.log(city); 
+              console.log(address);
+              console.log(city);
             } else {
               console.error("No results found");
             }
-            
           } catch (error) {
             console.error("Error fetching address:", error);
           }
@@ -57,8 +56,7 @@ export default class CurrentLocation extends Component {
   render() {
     return <div>Location</div>;
   }
-
- }
+}
 // https://opencagedata.com/api#
 
 // dontbcc3a7a74e644816a6c6ec45eba108d6
