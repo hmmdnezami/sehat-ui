@@ -49,16 +49,16 @@ export const driverSignupRequestReducer = (state = {}, action) => {
 
 export const getHospitalByCityReducer = (state = {}, action) => {
   switch (action.type) {
-    case "GET_HOSPITALS_BY_CITY_REQUEST":
+    case "GET_HOSPITAL_BY_CITY_REQUEST":
       return { ...state, loading: true };
 
-    case "GET_HOSPITALS_BY_CITY_SUCCESS":
+    case "GET_HOSPITAL_BY_CITY_SUCCESS":
       return {
         loading: false,
-        hospitals: action.payload.data,
+        hospitals: action.payload,
       };
 
-    case "GET_HOSPITALS_BY_CITY_FAILURE":
+    case "GET_HOSPITAL_BY_CITY_FAILURE":
       return { loading: false, hospitals: [], error: action.payload };
 
     default:

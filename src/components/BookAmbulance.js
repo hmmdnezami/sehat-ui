@@ -4,6 +4,11 @@ import ambulance from "../assets/ambulanceImg.webp";
 import { GeoAlt, Telephone } from "react-bootstrap-icons";
 
 const BookAmbulance = () => {
+
+    const handleClick = () => {
+        
+    }
+
   return (
     <div>
       <Navbar />
@@ -11,7 +16,7 @@ const BookAmbulance = () => {
         <div className=" w-1/2">
           <img src={ambulance} alt="" className="w-[600px]" />
           <div className="flex flex-col gap-5 my-20">
-            <button className=" bg-blue-800 text-white p-4 rounded font-bold w-[600px] ">
+            <button onClick={handleClick} className=" bg-blue-800 text-white p-4 rounded font-bold w-[600px] ">
               Book Now
             </button>
             <button className=" border border-blue-800 text-blue-800 p-4 rounded font-bold w-[600px] ">

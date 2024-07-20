@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -23,15 +23,18 @@ const Login = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    try{
-    dispatch(loginRequest(formData));
-    toast.success("Logged in successfully");
-    navigate('/home');
-    }catch(err) {
+    try {
+      dispatch(loginRequest(formData));
+      navigate("/home");
+
+      // toast.success("Logged in successfully");
+    } catch (err) {
       console.log(err);
     }
-
   };
+  const token = localStorage.getItem("authToken");
+
+  // useEffect(() => {}, [token, navigate]);
 
   return (
     <div>

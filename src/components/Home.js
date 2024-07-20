@@ -1,20 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { getHospitalsByCity } from "../redux/actions/userActions";
 import hospital from "../assets/hospital.webp";
 import { GeoAlt, Search, Telephone } from "react-bootstrap-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [city, setCity] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const {hospitals} = useSelector((state)=> state.getHospitalsByCity)
-  // const { hospitals } = hospitalData;
+
+  // const token = localStorage.getItem("authToken");
+  // console.log(token);
+
+  // if(!token || token === undefined){
+  //   alert("Login first");
+  //   navigate('/');
+  // }
+
+  const { hospitals } = useSelector((state) => state.getHospitalsByCity);
   console.log(hospitals);
-
-  const dummyAry = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   const handleChange = (event) => {
     setCity(event.target.value);
@@ -51,54 +58,27 @@ const Home = () => {
         </button>
       </form>
 
-      <Link to="/bookAmbulance" className="flex gap-10 flex-wrap m-5 mx-14">
-        {dummyAry.map((data, index) => (
-          <div key={index} className="border h-[250px] w-[258px] p-2 shadow-md">
+      <div className="flex gap-10 flex-wrap m-5 mx-14">
+        {hospitals?.map((hospital, index) => (
+          <Link to={`/ambulances/${city}`} key={index} className="border h-[250px] w-[258px] p-2 shadow-md">
             <img src={hospital} alt="" className=" h-32 w-full" />
             <div className="flex flex-col gap-2 my-2">
-              <span className="font-semibold text-center">
-                {data?.name}
-              </span>
+              <span className="font-semibold text-center">{hospital?.name}</span>
               <span className="flex items-center gap-3 text-sm">
                 <GeoAlt size={15} />
-                {data?.city}
+                {hospital?.city}
               </span>
 
               <span className="flex items-center gap-3 text-sm">
                 <Telephone size={15} />
-                {data?.contact?.phone.map((phone, index) => (
-                  {phone}
-                ))}
-                
+                {hospital?.contact?.phone?.map((data, index) => ( data ))}
               </span>
             </div>
-          </div>
+          </Link>
         ))}
-      </Link>
+      </div>
     </div>
   );
 };
 
 export default Home;
-
-// city
-// : 
-// "patna2"
-// contact
-// : 
-// {cid: 2, name: null, email: Array(1), phone: Array(1), healthcareFacility: null}
-// createdAt
-// : 
-// "2024-06-24T19:39:29.704+00:00"
-// id
-// : 
-// 2
-// location
-// : 
-// {id: 2, latitude: '34', longitude: '45'}
-// name
-// : 
-// "hospital6"
-// updateAt
-// : 
-// "2024-06-24T19:39:29.704+00:00"

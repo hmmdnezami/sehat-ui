@@ -19,6 +19,7 @@ import {
   USER_BOOKING_FAILURE,
   USER_BOOKING_REQUEST,
   USER_BOOKING_SUCCESS,
+  USER_LOGOUT,
 } from "../constants/userConstants";
 import { toast } from "react-toastify";
 import axiosUtil from "../../utils/axiosUtil";
@@ -42,13 +43,25 @@ export const loginRequest = (bodyData) => async (dispatch) => {
 
     localStorage.setItem("authToken", accessToken);
     toast.success("Login Successful");
+
   } catch (err) {
+    toast.error("Incorrect Username or Password");
+
     console.error(err);
     dispatch({
       type: LOGIN_FAILURE,
       payload: err.message,
     });
   }
+};
+
+export const logout = () => async (dispatch) => {
+	try {
+		localStorage.removeItem("authToken");
+		dispatch({ type: USER_LOGOUT });
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 export const riderSignup = (bodyData) => async (dispatch) => {
@@ -103,7 +116,7 @@ export const getHospitalsByCity = (cityName) => async (dispatch) => {
     });
 
     const response = await axiosUtil.get(`/v2/hospital/city/${cityName}`);
-    console.log("respone from city api", response);
+    // console.log("respone from city api", response);
 
     dispatch({
       type: GET_HOSPITAL_BY_CITY_SUCCESS,
@@ -125,6 +138,7 @@ export const getAmbulanceNearUser = (cityName) => async (dispatch) => {
     });
 
     const response = await axiosUtil.get(`/v2/ambulance/city/${cityName}`);
+    console.log(response);
 
     dispatch({
       type: GET_AMBULANCE_NEAR_USER_SUCCESS,
