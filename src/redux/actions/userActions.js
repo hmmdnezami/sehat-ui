@@ -22,7 +22,6 @@ import {
   USER_LOGOUT,
 } from "../constants/userConstants";
 import { toast } from "react-toastify";
-import axiosUtil from "../../utils/axiosUtil";
 
 export const loginRequest = (bodyData) => async (dispatch) => {
   try {
@@ -43,7 +42,6 @@ export const loginRequest = (bodyData) => async (dispatch) => {
 
     localStorage.setItem("authToken", accessToken);
     toast.success("Login Successful");
-
   } catch (err) {
     toast.error("Incorrect Username or Password");
 
@@ -56,12 +54,12 @@ export const loginRequest = (bodyData) => async (dispatch) => {
 };
 
 export const logout = () => async (dispatch) => {
-	try {
-		localStorage.removeItem("authToken");
-		dispatch({ type: USER_LOGOUT });
-	} catch (error) {
-		console.log(error);
-	}
+  try {
+    localStorage.removeItem("authToken");
+    dispatch({ type: USER_LOGOUT });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const riderSignup = (bodyData) => async (dispatch) => {
@@ -115,8 +113,11 @@ export const getHospitalsByCity = (cityName) => async (dispatch) => {
       type: GET_HOSPITAL_BY_CITY_REQUEST,
     });
 
-    const response = await axiosUtil.get(`/v2/hospital/city/${cityName}`);
-    // console.log("respone from city api", response);
+    const response = await axios.get(`${url}/v2/heathCare/city/${cityName}`);
+    // const response = await axios.get(`${url}/v2/healthcare`);
+
+
+    console.log("respone from city api", response);
 
     dispatch({
       type: GET_HOSPITAL_BY_CITY_SUCCESS,
@@ -137,7 +138,7 @@ export const getAmbulanceNearUser = (cityName) => async (dispatch) => {
       type: GET_AMBULANCE_NEAR_USER_REQUEST,
     });
 
-    const response = await axiosUtil.get(`/v2/ambulance/city/${cityName}`);
+    const response = await axios.get(`/v2/ambulance/city/${cityName}`);
     console.log(response);
 
     dispatch({
@@ -159,10 +160,7 @@ export const userBooking = (bodyData, userId) => async (dispatch) => {
       type: USER_BOOKING_REQUEST,
     });
 
-    const response = await axiosUtil.post(
-      `/v2/booking/user/${userId}`,
-      bodyData
-    );
+    const response = await axios.post(`/v2/booking/user/${userId}`, bodyData);
     console.log(response);
 
     dispatch({

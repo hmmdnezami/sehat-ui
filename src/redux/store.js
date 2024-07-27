@@ -9,7 +9,7 @@ import {
   userBookingReducer,
 } from "./reducers/userReducer";
 import { getDriverWithoutAmbulanceReducer, registeredAmbulanceReducer } from "./reducers/driverReducer";
-import { addFacilityReducer, getAllHealthcareFacilititesReducer, getHealthcareFacilityReducer } from "./reducers/hospitalReducer";
+import { addFacilityReducer, getAllHealthcareFacilititesReducer, getHospitalInfoReducer } from "./reducers/hospitalReducer";
 
 const adminInfoFromStorage = localStorage.getItem("admin")
   ? JSON.parse(localStorage.getItem("admin"))
@@ -26,7 +26,7 @@ const reducer = combineReducers({
   registeredAmbulance: registeredAmbulanceReducer,
   addFacility: addFacilityReducer,
   getAllHealthcareFacilitites: getAllHealthcareFacilititesReducer,
-  getHealthcareFacility: getHealthcareFacilityReducer,
+  getHospitalInfo: getHospitalInfoReducer,
 });
 
 const initialState = {

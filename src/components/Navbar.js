@@ -20,12 +20,16 @@ const Navbar = () => {
   };
 
   return (
-    <div className=" bg-black text-white p-3">
+    <div className=" bg-black text-white font-semibold p-3">
       <div className="flex justify-between ">
         <div className=" flex gap-4">
           <Link to="/home">Home</Link>
           <Link to="/aboutUs">About Us</Link>
           <Link to="/contactUs">Contact Us</Link>
+          <Link to="/addHospital">Add Hospital</Link>
+          <Link to="/addAmbulance">Add Ambulance</Link>
+
+
         </div>
         <div>
           <PersonCircle

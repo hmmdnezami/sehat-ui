@@ -1,62 +1,71 @@
-import React, { Component } from "react";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
 
-export default class CurrentLocation extends Component {
-  constructor(props) {
-    super(props);
+const CurrentLocation = () => {
 
-    this.state = {
-      latitude: null,
-      longitude: null,
-      address: "",
-      city: "",
-    };
-  }
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
+  const [address, setAddress] = useState('');
+  const [error, setError] = useState(null);
 
-  async componentDidMount() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          await this.setState({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          });
-          const { latitude, longitude } = this.state;
-          const API_KEY = "7f9c803feed24104b963e8e1ee687284";
-          const url = `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${API_KEY}`;
+  useEffect(() => {
+    const fetchLocation = async () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          async (position) => {
+            const { latitude, longitude } = position.coords;
+            setLatitude(latitude);
+            setLongitude(longitude);
 
-          try {
-            const response = await axios.get(url);
-            const results = response.data.results;
-            if (results.length > 0) {
-              const address = results[0].formatted;
-              const city =
-                results[0].components.city || results[0].components.town;
-              this.setState({ address, city });
-              console.log(address);
-              console.log(city);
-            } else {
-              console.error("No results found");
+            const API_KEY = '7f9c803feed24104b963e8e1ee687284';
+            const url = `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${API_KEY}`;
+
+            try {
+              const response = await axios.get(url);
+              const results = response.data.results;
+              console.log(results);
+              if (results.length > 0) {
+                const address = results[0].formatted;
+                setAddress(address);
+              } else {
+                setError('No results found');
+              }
+            } catch (error) {
+              setError('Error fetching address: ' + error.message);
             }
-          } catch (error) {
-            console.error("Error fetching address:", error);
+          },
+          (err) => {
+            setError(err.message);
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0,
           }
+        );
+      } else {
+        setError('Geolocation is not supported by this browser.');
+      }
+    };
 
-          console.log("Position retrieved:", position);
-        },
-        (error) => {
-          console.error("Error is :", error);
-        }
-      );
-    } else {
-      console.error("Geolocation is not supported by this browser.");
-    }
-  }
+    fetchLocation();
+  }, []);
 
-  render() {
-    return <div>Location</div>;
-  }
-}
-// https://opencagedata.com/api#
+  return (
+    <div>
+      <h1>Your Location</h1>
+      {latitude && longitude ? (
+        <div>
+          <p>Latitude: {latitude}</p>
+          <p>Longitude: {longitude}</p>
+          <p>Address: {address}</p>
+        </div>
+      ) : (
+        <p>Fetching location...</p>
+      )}
+      {error && <p>Error: {error}</p>}
+    </div>
+  );
+};
 
-// dontbcc3a7a74e644816a6c6ec45eba108d6
+export default CurrentLocation;

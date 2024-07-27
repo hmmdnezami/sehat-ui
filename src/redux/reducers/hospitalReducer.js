@@ -36,19 +36,19 @@ export const addFacilityReducer = (state = {}, action) => {
     }
   };
 
-  export const getHealthcareFacilityReducer = (state = {}, action) => {
+  export const getHospitalInfoReducer = (state = {}, action) => {
     switch (action.type) {
-      case "GET_HEALTHCARE_FACILITY_REQUEST":
+      case "GET_HOSPITAL_INFO_REQUEST":
         return { ...state, loading: true };
   
-      case "GET_HEALTHCARE_FACILITY_SUCCESS":
+      case "GET_HOSPITAL_INFO_SUCCESS":
         return {
           loading: false,
-          facility: action.payload,
+          hospitalInfo: action.payload,
         };
   
-      case "GET_HEALTHCARE_FACILITY_FAILURE":
-        return { loading: false, facility: [], error: action.payload };
+      case "GET_HOSPITAL_INFO_FAILURE":
+        return { loading: false, hospitalInfo: [], error: action.payload };
   
       default:
         return state;
