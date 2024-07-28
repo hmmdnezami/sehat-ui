@@ -1,6 +1,6 @@
 export const addFacilityReducer = (state = {}, action) => {
     switch (action.type) {
-      case "ADD_FACILITY_REQUEST":
+      case " ":
         return { ...state, loading: true };
   
       case "ADD_FACILITY_SUCCESS":

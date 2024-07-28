@@ -40,6 +40,7 @@ function App() {
         <Route path="/healthcare/:healthCardId" element={<HospitalInfo />} />
 
 
+        <Route path="/booking" element={<Booking />} />
         {/* <Route path="/bookAmbulance" element={<BookAmbulance />} /> */}
 
         <Route path="/aboutUs" element={<AboutUs />} />

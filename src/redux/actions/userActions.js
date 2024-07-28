@@ -113,7 +113,7 @@ export const getHospitalsByCity = (cityName) => async (dispatch) => {
       type: GET_HOSPITAL_BY_CITY_REQUEST,
     });
 
-    const response = await axios.get(`${url}/v2/heathCare/city/${cityName}`);
+    const response = await axios.get(`${url}/v2/healthcare/city/${cityName}`);
     // const response = await axios.get(`${url}/v2/healthcare`);
 
 
